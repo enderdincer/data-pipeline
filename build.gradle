@@ -1,0 +1,34 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
+    id 'org.jetbrains.kotlin.plugin.lombok' version '2.0.21'
+}
+
+group = 'com.enderdincer'
+version = '1.0-SNAPSHOT'
+
+apply plugin: 'kotlin-kapt'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+
+    implementation "io.github.resilience4j:resilience4j-kotlin:${resilience4jVersion}"
+    implementation "io.github.resilience4j:resilience4j-ratelimiter:${resilience4jVersion}"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
+
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:1.9.0'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+kapt {
+    keepJavacAnnotationProcessors = true
+}
+
