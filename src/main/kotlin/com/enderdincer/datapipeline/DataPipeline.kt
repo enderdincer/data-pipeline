@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class DatePipeline<SOURCE, SINK>(
+class DataPipeline<SOURCE, SINK>(
     private val source: Source<SOURCE>,
     private val transformer: Transformer<SOURCE, SINK>,
     private val sink: Sink<SINK>,

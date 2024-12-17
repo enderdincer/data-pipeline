@@ -1,10 +1,16 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
-    id 'org.jetbrains.kotlin.plugin.lombok' version '2.0.21'
+    id "maven-publish"
+    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
 }
 
-group = 'com.enderdincer'
-version = '1.0-SNAPSHOT'
+group = 'com.github.enderdincer'
+version = '1.0.2'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
 
 apply plugin: 'kotlin-kapt'
 
@@ -13,14 +19,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
 
     implementation "io.github.resilience4j:resilience4j-kotlin:${resilience4jVersion}"
     implementation "io.github.resilience4j:resilience4j-ratelimiter:${resilience4jVersion}"
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
-
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:1.9.0'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:${kotlinCoroutinesVersion}"
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
@@ -28,7 +32,20 @@ test {
     useJUnitPlatform()
 }
 
-kapt {
-    keepJavacAnnotationProcessors = true
+publishing {
+    repositories {
+        maven {
+            name = "GitHub"
+            url = uri("https://maven.pkg.github.com/enderdincer/data-pipeline")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
-
