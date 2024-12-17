@@ -26,7 +26,7 @@ jobs:
         id: semantic_release
         uses: cycjimmy/semantic-release-action@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Check New Release Version
         run: echo "New release version is ${{ steps.semantic_release.outputs.new_release_version }}"
@@ -34,8 +34,8 @@ jobs:
       - name: Publish artifact to GitHub Packages
         run: ./gradlew publish -Pversion=${{ steps.semantic_release.outputs.new_release_version }}
         env:
-          GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USERNAME: ${{ github.actor }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 
 
